@@ -5,6 +5,7 @@
 //  Created by Даниил Иванов on 10.06.2024.
 //
 
+//TODO: - Добавить огонек, разобраться с отступом от цен и кнопки
 import UIKit
 import SnapKit
 
@@ -18,11 +19,12 @@ final class CategoryViewCell: UICollectionViewCell {
 	private lazy var labelNewPrice: UILabel = settingLabelNewPrice()
 	private lazy var labelOldPrice: UILabel = settingLabelOldPrice()
 	private lazy var stackViewLabelNewPriceAndLabelOldPrice: UIStackView = settingStackViewLabelNewPriceAndLabelOldPrice()
+	private lazy var buttonAdd: UIButton = settingButtonAdd()
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		settingMainView()
-		set()
+		settingLayout()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -72,7 +74,7 @@ private extension CategoryViewCell {
 	
 	func settingLabelBenefit() -> UILabel {
 		let label = UILabel()
-		label.text = "Выгода 100Р!"
+		label.text = "Выгода 100₽!"
 		label.font = UIFont.systemFont(ofSize: 14)
 		label.textColor = UIColor(resource: .benefit)
 		label.translatesAutoresizingMaskIntoConstraints = false
@@ -95,15 +97,18 @@ private extension CategoryViewCell {
 	
 	func settingLabelNewPrice() -> UILabel {
 		let label = UILabel()
-		label.text = "359"
-		label.font = UIFont.systemFont(ofSize: 20)
+		label.text = "359₽"
+		label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
 	}
 	
 	func settingLabelOldPrice() -> UILabel {
 		let label = UILabel()
-		label.text = "453"
+		let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: "453₽")
+		attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 1, range: NSRange(location: 0, length: attributeString.length))
+		label.attributedText = attributeString
+		label.textColor = UIColor(resource: .oldPrice)
 		label.font = UIFont.systemFont(ofSize: 14)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -116,12 +121,25 @@ private extension CategoryViewCell {
 		])
 		stackView.axis = .vertical
 		stackView.spacing = 4
+		stackView.alignment = .leading
+		stackView.distribution = .fillProportionally
 		contentView.addSubview(stackView)
 		stackView.translatesAutoresizingMaskIntoConstraints = false
 		return stackView
 	}
 	
-	func set() {
+	func settingButtonAdd() -> UIButton {
+		let button = UIButton()
+		button.backgroundColor = UIColor(resource: .filter)
+		button.setImage(UIImage(systemName: "plus"), for: .normal)
+		button.tintColor = .systemRed
+		button.layer.cornerRadius = 10
+		button.translatesAutoresizingMaskIntoConstraints = false
+		contentView.addSubview(button)
+		return button
+	}
+	
+	func settingLayout() {
 		NSLayoutConstraint.activate(
 			[
 				imageView.topAnchor.constraint(
@@ -132,9 +150,7 @@ private extension CategoryViewCell {
 					multiplier: 1
 				),
 				
-				imageView.heightAnchor.constraint(
-					equalTo: contentView.heightAnchor,
-					multiplier: 0.5
+				imageView.heightAnchor.constraint(equalToConstant: 121
 				),
 				
 				labelTitle.topAnchor.constraint(
@@ -154,7 +170,7 @@ private extension CategoryViewCell {
 				
 				stackViewForWeightAndBenefit.topAnchor.constraint(
 					equalTo: labelTitle.bottomAnchor,
-					constant: 8
+					constant: 4
 				),
 				
 				stackViewForWeightAndBenefit.leadingAnchor.constraint(
@@ -168,14 +184,33 @@ private extension CategoryViewCell {
 				),
 				
 				stackViewLabelNewPriceAndLabelOldPrice.topAnchor.constraint(
-					equalTo: stackViewForWeightAndBenefit.bottomAnchor,
-					constant: 8
+					equalTo: stackViewForWeightAndBenefit.bottomAnchor
+				
 				),
 				
 				stackViewLabelNewPriceAndLabelOldPrice.leadingAnchor.constraint(
 					equalTo: contentView.leadingAnchor,
 					constant: 8
 				),
+				
+				buttonAdd.topAnchor.constraint(
+					equalTo: stackViewForWeightAndBenefit.bottomAnchor
+					
+				),
+				
+				buttonAdd.widthAnchor.constraint(equalToConstant: 44),
+				
+				buttonAdd.heightAnchor.constraint(equalToConstant: 44),
+				
+				buttonAdd.trailingAnchor.constraint(
+					equalTo: contentView.trailingAnchor,
+					constant: -9
+				),
+				
+				buttonAdd.bottomAnchor.constraint(
+					equalTo: contentView.bottomAnchor,
+					constant: -8
+				)
 			]
 		)
 	}

@@ -18,6 +18,8 @@
 		CE54C7872C17665A008C8D62 /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54C7862C17665A008C8D62 /* CategoryViewCell.swift */; };
 		CE54C7892C1766C8008C8D62 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54C7882C1766C8008C8D62 /* CategoryModel.swift */; };
 		CE54C78B2C178081008C8D62 /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54C78A2C178081008C8D62 /* FilterViewCell.swift */; };
+		CEC0CDDD2C197DC700CD61DE /* MokData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC0CDDC2C197DC700CD61DE /* MokData.swift */; };
+		CEC0CDDF2C19859600CD61DE /* TitleSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC0CDDE2C19859600CD61DE /* TitleSupplementaryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +35,8 @@
 		CE54C7862C17665A008C8D62 /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
 		CE54C7882C1766C8008C8D62 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		CE54C78A2C178081008C8D62 /* FilterViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewCell.swift; sourceTree = "<group>"; };
+		CEC0CDDC2C197DC700CD61DE /* MokData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MokData.swift; sourceTree = "<group>"; };
+		CEC0CDDE2C19859600CD61DE /* TitleSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleSupplementaryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,7 @@
 				CE54C7812C17647C008C8D62 /* ScreenBasket */,
 				CE54C7802C176467008C8D62 /* ScreenCard */,
 				CE54C77F2C176445008C8D62 /* ScreenCategory */,
+				CEC0CDDC2C197DC700CD61DE /* MokData.swift */,
 				CE54C7682C1763DA008C8D62 /* AppDelegate.swift */,
 				CE54C76A2C1763DA008C8D62 /* SceneDelegate.swift */,
 				CE54C7712C1763DB008C8D62 /* Assets.xcassets */,
@@ -82,8 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				CE54C76C2C1763DA008C8D62 /* CategoryViewController.swift */,
-				CE54C7862C17665A008C8D62 /* CategoryViewCell.swift */,
-				CE54C78A2C178081008C8D62 /* FilterViewCell.swift */,
+				CEC0CDE02C19993600CD61DE /* Cell */,
 				CE54C7882C1766C8008C8D62 /* CategoryModel.swift */,
 			);
 			path = ScreenCategory;
@@ -103,6 +107,16 @@
 				CE54C7822C1764CE008C8D62 /* BasketVewController.swift */,
 			);
 			path = ScreenBasket;
+			sourceTree = "<group>";
+		};
+		CEC0CDE02C19993600CD61DE /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				CEC0CDDE2C19859600CD61DE /* TitleSupplementaryView.swift */,
+				CE54C7862C17665A008C8D62 /* CategoryViewCell.swift */,
+				CE54C78A2C178081008C8D62 /* FilterViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -183,12 +197,14 @@
 			files = (
 				CE54C78B2C178081008C8D62 /* FilterViewCell.swift in Sources */,
 				CE54C7832C1764CE008C8D62 /* BasketVewController.swift in Sources */,
+				CEC0CDDD2C197DC700CD61DE /* MokData.swift in Sources */,
 				CE54C76D2C1763DA008C8D62 /* CategoryViewController.swift in Sources */,
 				CE54C7692C1763DA008C8D62 /* AppDelegate.swift in Sources */,
 				CE54C7852C1764D9008C8D62 /* CardViewController.swift in Sources */,
 				CE54C7892C1766C8008C8D62 /* CategoryModel.swift in Sources */,
 				CE54C7872C17665A008C8D62 /* CategoryViewCell.swift in Sources */,
 				CE54C76B2C1763DA008C8D62 /* SceneDelegate.swift in Sources */,
+				CEC0CDDF2C19859600CD61DE /* TitleSupplementaryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

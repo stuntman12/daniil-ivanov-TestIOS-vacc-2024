@@ -7,6 +7,8 @@
 
 import UIKit
 
+//TODO: - Сделать нормальную модель
+
 enum CategoryModel: Hashable {
 	
 	enum Section: Int, CaseIterable {

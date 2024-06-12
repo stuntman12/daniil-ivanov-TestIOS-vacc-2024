@@ -8,7 +8,7 @@
 import UIKit
 
 class FilterViewCell: UICollectionViewCell {
-	private lazy var labelFilter: UILabel = settingLabelFilter()
+	lazy var labelFilter: UILabel = settingLabelFilter()
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -21,14 +21,28 @@ class FilterViewCell: UICollectionViewCell {
 	}
 }
 
+extension FilterViewCell {
+	func configure(text: String) {
+		labelFilter.text = text
+	}
+}
+
 private extension FilterViewCell {
 	func settingMainView() {
 		contentView.backgroundColor = UIColor(resource: .filter)
-		
+		settingLayout()
 	}
 	
 	func settingLabelFilter() -> UILabel {
 		let label = UILabel()
-		return label 
+		label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+		contentView.addSubview(label)
+		return label
+	}
+	
+	func settingLayout() {
+		labelFilter.snp.makeConstraints { make in
+			make.centerX.centerY.equalToSuperview()
+		}
 	}
 }
