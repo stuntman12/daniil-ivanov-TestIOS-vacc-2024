@@ -6,6 +6,8 @@
 //
 import UIKit
 
+//TODO: - Переписать на SnapKit
+
 final class TitleSupplementaryView: UICollectionReusableView {
 	
 	lazy var label: UILabel = settingLabel()

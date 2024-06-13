@@ -8,6 +8,30 @@
 import Foundation
 
 final class MokData {
+	var arrayIngrediCell: [IngredientsCardModel.IngredientsCell] = [
+		.init(
+			image: "CheezeImage",
+			title: "Сырный бортик",
+			weight: "30",
+			price: "159₽",
+			count: "0"
+		),
+		.init(
+			image: "CheezeImage",
+			title: "Сырный бортик",
+			weight: "30",
+			price: "159₽",
+			count: "0"
+		),
+		.init(
+			image: "CheezeImage",
+			title: "Сырный бортик",
+			weight: "30",
+			price: "159₽",
+			count: "0"
+		)
+	]
+	
 	var arrayCardtwo: [CategoryModel.Card] = [
 		.init(
 			title: "1",
