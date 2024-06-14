@@ -68,6 +68,27 @@ private extension CategoryViewController {
 		return label
 	}
 	
+	func settingCollectionView() -> UICollectionView {
+		let collection = UICollectionView(
+			frame: .zero,
+			collectionViewLayout: settingCollectionLayout()
+		)
+		collection.backgroundColor = UIColor(resource: .main)
+		collection.register(
+			FilterViewCell.self,
+			forCellWithReuseIdentifier: "\(FilterViewCell.self)"
+		)
+		collection.register(
+			CategoryViewCell.self,
+			forCellWithReuseIdentifier: "\(CategoryViewCell.self)"
+		)
+		collection.showsVerticalScrollIndicator = false
+		collection.delegate = self
+		view.addSubview(collection)
+		return collection
+	}
+	
+	
 	// MARK: Setting Layout
 	func settingLayout() {
 		
@@ -85,12 +106,12 @@ private extension CategoryViewController {
 		buttonBack.snp.makeConstraints { make in
 			make.top.equalToSuperview().offset(70)
 			make.height.width.equalTo(44)
-			make.leading.equalToSuperview().inset(16)
+			make.leading.equalToSuperview().inset(Margins.mainHorizontal)
 		}
 		
 		titleHeader.snp.makeConstraints { make in
-			make.leading.equalToSuperview().offset(16)
 			make.top.equalTo(buttonBack.snp.bottom).offset(24)
+			make.leading.equalToSuperview().offset(Margins.mainHorizontal)
 		}
 		
 	}
@@ -98,26 +119,7 @@ private extension CategoryViewController {
 
 // MARK: Setting CollectionView
 private extension CategoryViewController {
-	func settingCollectionView() -> UICollectionView {
-		let collection = UICollectionView(
-			frame: .zero,
-			collectionViewLayout: settingCollectionLayout()
-		)
-		collection.backgroundColor = UIColor(resource: .main)
-		collection.register(
-			FilterViewCell.self,
-			forCellWithReuseIdentifier: "\(FilterViewCell.self)"
-		)
-		collection.register(
-			CategoryViewCell.self,
-			forCellWithReuseIdentifier: "\(CategoryViewCell.self)"
-		)
-		collection.showsVerticalScrollIndicator = false 
-		collection.delegate = self
-		view.addSubview(collection)
-		return collection
-	}
-	
+
 	// MARK: DataSourceSnapshot
 	func reloadData() {
 		var snapshot = NSDiffableDataSourceSnapshot<CategoryModel.Section, CategoryModel.Card>()

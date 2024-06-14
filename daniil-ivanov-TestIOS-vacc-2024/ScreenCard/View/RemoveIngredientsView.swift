@@ -43,6 +43,8 @@ private extension RemoveIngredientsView {
 		stack.axis = .vertical
 		stack.distribution = .equalSpacing
 		stack.spacing = 18
+		stack.isUserInteractionEnabled = false 
+
 		self.addSubview(stack)
 		return stack
 	}
@@ -66,6 +68,8 @@ private extension RemoveIngredientsView {
 	func createStackViewSection(views: [UIView]) -> UIStackView {
 		let stack = UIStackView(arrangedSubviews: views)
 		stack.axis = .horizontal
+		stack.isUserInteractionEnabled = false
+
 		stack.spacing = 8
 		return stack
 	}
@@ -79,6 +83,8 @@ private extension RemoveIngredientsView {
 	
 	func settingViewCheckIngredient() -> UIImageView {
 		let imageView = UIImageView()
+		imageView.isUserInteractionEnabled = false
+
 		imageView.backgroundColor = toggle ? .green : .footerButton
 		imageView.layer.cornerRadius = 2
 		imageView.snp.makeConstraints { make in

@@ -80,7 +80,6 @@ private extension CardViewController {
 		return view
 	}
 	
-	
 	func settingScrollViewForCarousel() -> UIScrollView {
 		let scroll = UIScrollView()
 		scroll.contentSize = CGSize(
@@ -201,7 +200,116 @@ private extension CardViewController {
 		contentView.addSubview(collection)
 		return collection
 	}
-	
+
+	func settingLayout() {
+		screenScroll.snp.makeConstraints { make in
+			make.top.trailing.leading.bottom.equalToSuperview()
+		}
+		
+		contentView.snp.makeConstraints { make in
+			make.trailing.equalTo(screenScroll.snp.trailing)
+			make.top.equalTo(screenScroll.snp.top)
+			make.leading.equalTo(screenScroll.snp.leading)
+			make.bottom.equalTo(screenScroll.snp.bottom)
+			make.width.equalTo(screenScroll.snp.width)
+		}
+		
+		buttonBack.snp.makeConstraints { make in
+			make.top.equalTo(contentView.snp.top).offset(10)
+			make.height.width.equalTo(44)
+			make.leading.equalTo(contentView.snp.leading).inset(Margins.mainHorizontal)
+		}
+		
+		scrollViewForCarousel.snp.makeConstraints { make in
+			make.top.equalTo(contentView.snp.top)
+			make.leading.equalTo(contentView.snp.leading)
+			make.trailing.equalTo(contentView.snp.trailing)
+			make.height.equalTo(254)
+		}
+		
+		pageControl.snp.makeConstraints { make in
+			make.top.equalTo(scrollViewForCarousel.snp.bottom).inset(20)
+			make.centerX.equalTo(contentView.snp.centerX)
+		}
+		
+		labelTitle.snp.makeConstraints { make in
+			make.top.equalTo(scrollViewForCarousel.snp.bottom).offset(16)
+			make.leading.equalTo(contentView.snp.leading).offset(Margins.mainHorizontal)
+			make.trailing.equalTo(contentView.snp.trailing).offset(-Margins.mainHorizontal)
+		}
+		
+		labelDescription.snp.makeConstraints { make in
+			make.top.equalTo(labelTitle.snp.bottom).offset(16)
+			make.leading.equalTo(contentView).offset(Margins.mainHorizontal)
+			make.trailing.equalTo(contentView).offset(-Margins.mainHorizontal)
+		}
+		
+		contentView.addSubview(viewInfo)
+		
+		viewInfo.snp.makeConstraints { make in
+			make.top.equalTo(labelDescription.snp.bottom).offset(16)
+			make.height.equalTo(49)
+			make.leading.equalToSuperview().offset(Margins.mainHorizontal)
+			make.trailing.equalToSuperview().offset(-Margins.mainHorizontal)
+		}
+		
+		segmentControlSize.snp.makeConstraints { make in
+			make.top.equalTo(viewInfo.snp.bottom).offset(16)
+			make.height.equalTo(42)
+			make.leading.equalToSuperview().offset(Margins.mainHorizontal)
+			make.trailing.equalToSuperview().offset(-Margins.mainHorizontal)
+		}
+		
+		segmentControlType.snp.makeConstraints { make in
+			make.top.equalTo(segmentControlSize.snp.bottom).offset(16)
+			make.height.equalTo(42)
+			make.leading.equalToSuperview().offset(Margins.mainHorizontal)
+			make.trailing.equalToSuperview().offset(-Margins.mainHorizontal)
+		}
+		
+		labelHeaderIngredients.snp.makeConstraints { make in
+			make.top.equalTo(segmentControlType.snp.bottom).offset(24)
+			make.leading.equalTo(segmentControlType.snp.leading)
+		}
+		
+		collectionViewIngredients.snp.makeConstraints { make in
+			make.top.equalTo(labelHeaderIngredients.snp.bottom).offset(16)
+			make.height.equalTo(205)
+			make.leading.equalToSuperview().offset(Margins.mainHorizontal)
+			make.trailing.equalToSuperview().offset(-Margins.mainHorizontal)
+		}
+		
+		ButtonFooterCollectionView.snp.makeConstraints { make in
+			make.top.equalTo(collectionViewIngredients.snp.bottom).offset(16)
+			make.leading.trailing.equalTo(collectionViewIngredients)
+			make.height.equalTo(44)
+		}
+		
+		contentView.addSubview(viewRemoveIngredients)
+		
+		labelHeaderRemoveIngredients.snp.makeConstraints { make in
+			make.top.equalTo(ButtonFooterCollectionView.snp.bottom).offset(24)
+			make.leading.equalTo(segmentControlType.snp.leading)
+		}
+		
+		viewRemoveIngredients.snp.makeConstraints { make in
+			make.top.equalTo(labelHeaderRemoveIngredients.snp.bottom).offset(24)
+			make.width.equalTo(collectionViewIngredients)
+			make.centerX.equalTo(contentView.snp.centerX)
+		}
+		
+		buttonAdd.snp.makeConstraints { make in
+			make.top.equalTo(viewRemoveIngredients.snp.bottom).offset(24)
+			make.centerX.equalTo(contentView.snp.centerX)
+			make.width.equalTo(viewRemoveIngredients)
+			make.height.equalTo(44)
+			make.bottom.equalTo(contentView.snp.bottom)
+		}
+	}
+}
+
+// MARK: Setting DataSource and Layout collection
+private extension CardViewController {
 	func settingDataSource() {
 		dataSource = UICollectionViewDiffableDataSource<IngredientsCardModel.Section, IngredientsCardModel.IngredientsCell>(
 			collectionView: collectionViewIngredients,
@@ -220,24 +328,22 @@ private extension CardViewController {
 					return cell
 				}
 			}
-		)		
+		)
 	}
-	
 	
 	func settingSnapshot() {
 		var snapshot = NSDiffableDataSourceSnapshot<
 			IngredientsCardModel.Section,
 			IngredientsCardModel.IngredientsCell
 		>()
-		
 		snapshot.appendSections([.ingredients])
 		snapshot.appendItems(
 			mokData.arrayIngrediCell,
 			toSection: .ingredients
 		)
-		
 		dataSource?.apply(snapshot, animatingDifferences: true)
 	}
+	
 	
 	func settingCollectionLayout() -> UICollectionViewLayout {
 		let configure = UICollectionViewCompositionalLayoutConfiguration()
@@ -275,112 +381,7 @@ private extension CardViewController {
 			group: group
 		)
 		section.orthogonalScrollingBehavior = .groupPagingCentered
-
+		
 		return section
-	}
-	
-	func settingLayout() {
-		screenScroll.snp.makeConstraints { make in
-			make.top.trailing.leading.bottom.equalToSuperview()
-		}
-		
-		contentView.snp.makeConstraints { make in
-			make.trailing.equalTo(screenScroll.snp.trailing)
-			make.top.equalTo(screenScroll.snp.top)
-			make.leading.equalTo(screenScroll.snp.leading)
-			make.bottom.equalTo(screenScroll.snp.bottom)
-			make.width.equalTo(screenScroll.snp.width)
-		}
-		
-		buttonBack.snp.makeConstraints { make in
-			make.top.equalTo(contentView.snp.top).offset(10)
-			make.height.width.equalTo(44)
-			make.leading.equalTo(contentView.snp.leading).inset(16)
-		}
-		
-		scrollViewForCarousel.snp.makeConstraints { make in
-			make.top.equalTo(contentView.snp.top)
-			make.leading.equalTo(contentView.snp.leading)
-			make.trailing.equalTo(contentView.snp.trailing)
-			make.height.equalTo(254)
-		}
-		
-		pageControl.snp.makeConstraints { make in
-			make.top.equalTo(scrollViewForCarousel.snp.bottom).inset(20)
-			make.centerX.equalTo(contentView.snp.centerX)
-		}
-		
-		labelTitle.snp.makeConstraints { make in
-			make.top.equalTo(scrollViewForCarousel.snp.bottom).offset(16)
-			make.leading.equalTo(contentView.snp.leading).offset(16)
-			make.trailing.equalTo(contentView.snp.trailing).offset(-16)
-		}
-		
-		labelDescription.snp.makeConstraints { make in
-			make.top.equalTo(labelTitle.snp.bottom).offset(16)
-			make.leading.equalTo(contentView).offset(16)
-			make.trailing.equalTo(contentView).offset(-16)
-		}
-		
-		contentView.addSubview(viewInfo)
-		
-		viewInfo.snp.makeConstraints { make in
-			make.top.equalTo(labelDescription.snp.bottom).offset(16)
-			make.leading.equalToSuperview().offset(16)
-			make.trailing.equalToSuperview().offset(-16)
-		}
-		
-		segmentControlSize.snp.makeConstraints { make in
-			make.top.equalTo(viewInfo.snp.bottom).offset(16)
-			make.height.equalTo(42)
-			make.leading.equalToSuperview().offset(16)
-			make.trailing.equalToSuperview().offset(-16)
-		}
-		
-		segmentControlType.snp.makeConstraints { make in
-			make.top.equalTo(segmentControlSize.snp.bottom).offset(16)
-			make.height.equalTo(42)
-			make.leading.equalToSuperview().offset(16)
-			make.trailing.equalToSuperview().offset(-16)
-		}
-		
-		labelHeaderIngredients.snp.makeConstraints { make in
-			make.top.equalTo(segmentControlType.snp.bottom).offset(24)
-			make.leading.equalTo(segmentControlType.snp.leading)
-		}
-		
-		collectionViewIngredients.snp.makeConstraints { make in
-			make.top.equalTo(labelHeaderIngredients.snp.bottom).offset(16)
-			make.height.equalTo(205)
-			make.leading.equalToSuperview().offset(16)
-			make.trailing.equalToSuperview().offset(-16)
-		}
-		
-		ButtonFooterCollectionView.snp.makeConstraints { make in
-			make.top.equalTo(collectionViewIngredients.snp.bottom).offset(16)
-			make.leading.trailing.equalTo(collectionViewIngredients)
-			make.height.equalTo(44)
-		}
-		
-		contentView.addSubview(viewRemoveIngredients)
-		
-		labelHeaderRemoveIngredients.snp.makeConstraints { make in
-			make.top.equalTo(ButtonFooterCollectionView.snp.bottom).offset(24)
-			make.leading.equalTo(segmentControlType.snp.leading)
-		}
-		
-		viewRemoveIngredients.snp.makeConstraints { make in
-			make.top.equalTo(labelHeaderRemoveIngredients.snp.bottom).offset(24)
-			make.width.equalTo(collectionViewIngredients)
-			make.centerX.equalTo(contentView.snp.centerX)
-		}
-		
-		buttonAdd.snp.makeConstraints { make in
-			make.top.equalTo(viewRemoveIngredients.snp.bottom).offset(24)
-			make.centerX.equalTo(contentView.snp.centerX)
-			make.width.equalTo(viewRemoveIngredients)
-			make.height.equalTo(44)
-			make.bottom.equalTo(contentView.snp.bottom)
-		}
 	}
 }

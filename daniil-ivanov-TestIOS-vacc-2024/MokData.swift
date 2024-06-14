@@ -8,6 +8,27 @@
 import Foundation
 
 final class MokData {
+	var arrayBasketProduct: [BasketModel.Product] = [
+		BasketModel.Product(
+			image: "ImagePizza",
+			title: "Круассан с семгой и сыром с семгой и сыром",
+			price: "359₽",
+			count: "0"
+		),
+		BasketModel.Product(
+			image: "ImagePizza",
+			title: "Круассан с семгой и сыром с семгой и сыром",
+			price: "359₽",
+			count: "0"
+		),
+		BasketModel.Product(
+			image: "ImagePizza",
+			title: "Круассан с семгой и сыром с семгой и сыром",
+			price: "359₽",
+			count: "0"
+		)
+	]
+	
 	var arrayIngrediCell: [IngredientsCardModel.IngredientsCell] = [
 		.init(
 			image: "CheezeImage",

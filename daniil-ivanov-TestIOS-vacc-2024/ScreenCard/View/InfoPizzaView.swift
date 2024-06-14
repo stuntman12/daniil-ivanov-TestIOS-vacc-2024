@@ -43,8 +43,8 @@ private extension InfoPizzaView {
 			let viewNumber = settingLabelNumber(count: "100")
 			let viewName = settingLabelName(item: item.rawValue)
 			let stack = settingStackViewSection(views: [viewNumber, viewName])
-			views.append(stack)
 			let view = settingSeparator()
+			views.append(stack)
 			views.append(view)
 		}
 		return views
@@ -55,7 +55,6 @@ private extension InfoPizzaView {
 		let stack = UIStackView(arrangedSubviews: views)
 		stack.axis = .horizontal
 		stack.distribution = .fillProportionally
-		stack.alignment = .center
 		stack.layer.borderWidth = 0.2
 		stack.layer.cornerRadius = 10
 		stack.layer.borderColor = UIColor.lightGray.cgColor
@@ -66,7 +65,8 @@ private extension InfoPizzaView {
 	func settingStackViewSection(views: [UIView]) -> UIStackView {
 		let stack = UIStackView(arrangedSubviews: views)
 		stack.axis = .vertical
-		stack.distribution = .fillProportionally
+		stack.distribution = .fill
+		stack.alignment = .fill
 		return stack
 	}
 	
@@ -74,6 +74,14 @@ private extension InfoPizzaView {
 		let label = UILabel()
 		label.text = count
 		label.textAlignment = .center
+		label.setContentHuggingPriority(
+			.defaultHigh,
+			for: .horizontal
+		)
+		label.setContentCompressionResistancePriority(
+			.defaultHigh,
+			for: .horizontal
+		)
 		label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
 		return label
 	}	
@@ -82,7 +90,7 @@ private extension InfoPizzaView {
 		let label = UILabel()
 		label.text = item
 		label.setContentHuggingPriority(
-			.defaultHigh,
+			.defaultLow,
 			for: .horizontal
 		)
 		label.setContentCompressionResistancePriority(
@@ -107,15 +115,4 @@ private extension InfoPizzaView {
 	}
 }
 
-extension UIView {
-	func applySeparatorLineVerticalView(width: CGFloat = 0.2) {
-		self.widthAnchor.constraint(equalToConstant: width).isActive = true
-		self.heightAnchor.constraint(equalToConstant: 40).isActive = true
-		self.backgroundColor = UIColor(resource: .footerButton)
-	}
-	
-	func applySeparatorLineHorizontalView() {
-		self.heightAnchor.constraint(equalToConstant: 1).isActive = true
-		self.backgroundColor = UIColor(resource: .footerButton)
-	}
-}
+
