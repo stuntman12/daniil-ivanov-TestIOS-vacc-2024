@@ -25,7 +25,7 @@ final class IngredientsCell: UICollectionViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	func configure(element: IngredientsCardModel.IngredientsCell) {
+	func configure(element: CardModel.IngredientsCell) {
 		imageIngredient.image = UIImage(named: element.image)
 		labelTitle.text = element.title
 		labelWeight.text = element.weight + " гр"

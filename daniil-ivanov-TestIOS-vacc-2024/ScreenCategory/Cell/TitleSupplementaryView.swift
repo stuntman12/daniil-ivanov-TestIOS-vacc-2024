@@ -5,8 +5,7 @@
 //  Created by Даниил Иванов on 12.06.2024.
 //
 import UIKit
-
-//TODO: - Переписать на SnapKit
+import SnapKit
 
 final class TitleSupplementaryView: UICollectionReusableView {
 	
@@ -28,15 +27,13 @@ private extension TitleSupplementaryView {
 	}
 	func settingLabel() -> UILabel {
 		let label = UILabel()
-		label.translatesAutoresizingMaskIntoConstraints = false
 		addSubview(label)
 		return label
 	}
 	
 	func settingLayout() {
-		NSLayoutConstraint.activate([
-			label.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-			label.topAnchor.constraint(equalTo: self.topAnchor)
-		])
+		label.snp.makeConstraints { make in
+			make.leading.top.equalToSuperview()
+		}
 	}
 }

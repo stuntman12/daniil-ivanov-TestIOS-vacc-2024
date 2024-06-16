@@ -8,12 +8,16 @@
 import UIKit
 import SnapKit
 
+protocol ICardViewController: AnyObject {
+	func viewReady()
+}
+
 final class CardViewController: UIViewController {
-	
-	private let arrayImageForCarousel = [1,2,3]
-	
-	var mokData = MokData()
-	var dataSource: UICollectionViewDiffableDataSource<IngredientsCardModel.Section, IngredientsCardModel.IngredientsCell>?
+		
+	// MARK: Variables
+	private var ingredients = [CardModel.IngredientsCell]()
+	var model: CardModel.PizzaInfo?
+	var dataSource: UICollectionViewDiffableDataSource<CardModel.Section, CardModel.IngredientsCell>?
 	private lazy var buttonBack: UIButton = settingButtonBack()
 	private lazy var screenScroll: UIScrollView = settingScreenScroll()
 	private lazy var contentView: UIView = settingContentView()
@@ -31,12 +35,24 @@ final class CardViewController: UIViewController {
 	private lazy var viewRemoveIngredients = RemoveIngredientsView()
 	private lazy var buttonAdd: UIButton = settingButtonAdd()
 	
+	// MARK: Dependencies
+	var presenter: ICardPresenter?
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		settingMainView()
+		presenter?.loadData()
 	}
 }
 
+// MARK: ICardViewController
+extension CardViewController: ICardViewController {
+	func viewReady() {
+		
+	}
+}
+
+// MARK: UIScrollViewDelegate
 extension CardViewController: UIScrollViewDelegate {
 	func scrollViewDidScroll(_ scrollView: UIScrollView) {
 		if scrollView == scrollViewForCarousel {
@@ -45,6 +61,18 @@ extension CardViewController: UIScrollViewDelegate {
 	}
 }
 
+// MARK: Action objc
+private extension CardViewController {
+	@objc func popViewController() {
+		presenter?.popViewController()
+	}
+	
+	@objc func addProductBasket() {
+		
+	}
+}
+
+// MARK: Setting View
 private extension CardViewController {
 	func settingMainView() {
 		view.backgroundColor = UIColor(resource: .main)
@@ -63,6 +91,11 @@ private extension CardViewController {
 		button.backgroundColor = UIColor(resource: .filter)
 		button.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
 		button.tintColor = .black
+		button.addTarget(
+			self,
+			action: #selector(popViewController),
+			for: .touchUpInside
+		)
 		contentView.insertSubview(button, aboveSubview: scrollViewForCarousel)
 		return button
 	}
@@ -83,7 +116,7 @@ private extension CardViewController {
 	func settingScrollViewForCarousel() -> UIScrollView {
 		let scroll = UIScrollView()
 		scroll.contentSize = CGSize(
-			width: Int(UIScreen.main.bounds.width) * arrayImageForCarousel.count,
+			width: Int(UIScreen.main.bounds.width) * 3,
 			height: 250
 		)
 		scroll.isPagingEnabled = true
@@ -201,6 +234,7 @@ private extension CardViewController {
 		return collection
 	}
 
+	// MARK: Setting Layout
 	func settingLayout() {
 		screenScroll.snp.makeConstraints { make in
 			make.top.trailing.leading.bottom.equalToSuperview()
@@ -311,13 +345,13 @@ private extension CardViewController {
 // MARK: Setting DataSource and Layout collection
 private extension CardViewController {
 	func settingDataSource() {
-		dataSource = UICollectionViewDiffableDataSource<IngredientsCardModel.Section, IngredientsCardModel.IngredientsCell>(
+		dataSource = UICollectionViewDiffableDataSource<CardModel.Section, CardModel.IngredientsCell>(
 			collectionView: collectionViewIngredients,
 			cellProvider: {
 				collectionView,
 				indexPath,
 				itemIdentifier in
-				guard let section = IngredientsCardModel.Section(rawValue: indexPath.section) else { return nil}
+				guard let section = CardModel.Section(rawValue: indexPath.section) else { return nil}
 				switch section {
 				case .ingredients:
 					let cell = collectionView.dequeueReusableCell(
@@ -333,17 +367,16 @@ private extension CardViewController {
 	
 	func settingSnapshot() {
 		var snapshot = NSDiffableDataSourceSnapshot<
-			IngredientsCardModel.Section,
-			IngredientsCardModel.IngredientsCell
+			CardModel.Section,
+			CardModel.IngredientsCell
 		>()
 		snapshot.appendSections([.ingredients])
 		snapshot.appendItems(
-			mokData.arrayIngrediCell,
+			ingredients,
 			toSection: .ingredients
 		)
 		dataSource?.apply(snapshot, animatingDifferences: true)
 	}
-	
 	
 	func settingCollectionLayout() -> UICollectionViewLayout {
 		let configure = UICollectionViewCompositionalLayoutConfiguration()

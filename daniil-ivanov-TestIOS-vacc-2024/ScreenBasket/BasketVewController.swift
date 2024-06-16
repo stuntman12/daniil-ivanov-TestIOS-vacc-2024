@@ -8,8 +8,14 @@
 import UIKit
 import SnapKit
 
+protocol IBasketVewController: AnyObject {
+	func viewReady()
+}
+
 final class BasketVewController: UIViewController {
 	
+	// MARK: Variables
+	private var baskets = [BasketModel.Product]()
 	private lazy var viewUpContainer: UIView = settingUpView()
 	private lazy var buttonDelete: UIButton = settingButtomDelete()
 	private lazy var buttonBack: UIButton = settingButtonBack()
@@ -18,12 +24,21 @@ final class BasketVewController: UIViewController {
 	private lazy var labelBottom: UILabel = settingLabelBottom()
 	private lazy var labelPriceBottom: UILabel = settingLabelPriceBottom()
 	private lazy var buttonOrder: UIButton = settingButtonOrder()
-	
 	private var dataSource: UICollectionViewDiffableDataSource<BasketModel.Section, BasketModel.Product>!
 	
+	// MARK: Dependencies
+	weak var presenter: IBasketPresenter?
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		presenter?.loadData()
 		settingMainView()
+	}
+}
+
+extension BasketVewController: IBasketVewController {
+	func viewReady() {
+		
 	}
 }
 
@@ -112,6 +127,7 @@ private extension BasketVewController {
 		return button
 	}
 	
+	// MARK: Setting Layout
 	func settingLayoutView() {
 		viewUpContainer.snp.makeConstraints { make in
 			make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
@@ -138,7 +154,7 @@ private extension BasketVewController {
 		}
 		
 		viewBottomContainer.snp.makeConstraints { make in
-			make.leading.trailing.bottom.equalToSuperview()
+			make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
 			make.height.equalTo(100)
 		}
 		
@@ -193,8 +209,7 @@ private extension BasketVewController {
 	func createSnapShot() {
 		var snapshot = NSDiffableDataSourceSnapshot<BasketModel.Section, BasketModel.Product>()
 		snapshot.appendSections([.product])
-		let array = MokData().arrayBasketProduct
-		snapshot.appendItems(array, toSection: .product)
+		snapshot.appendItems(baskets, toSection: .product)
 		
 		dataSource.apply(snapshot, animatingDifferences: true)
 	}
@@ -232,4 +247,5 @@ private extension BasketVewController {
 		return section
 	}
 }
+
 

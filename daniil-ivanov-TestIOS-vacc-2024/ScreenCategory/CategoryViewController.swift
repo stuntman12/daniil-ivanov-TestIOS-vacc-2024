@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CategoryViewController.swift
 //  daniil-ivanov-TestIOS-vacc-2024
 //
 //  Created by Даниил Иванов on 10.06.2024.
@@ -8,24 +8,46 @@
 import UIKit
 import SnapKit
 
+protocol ICategoryViewController {
+	func viewReady()
+}
+
 class CategoryViewController: UIViewController {
 	
 	// MARK: Variables
-	var mokData = MokData()
+	private var cardModel = [CategoryModel.Card]()
 	var dataSource: UICollectionViewDiffableDataSource<CategoryModel.Section, CategoryModel.Card>?
 	private lazy var collectionView: UICollectionView = settingCollectionView()
 	private lazy var imageViewHeaderPizza: UIImageView = settingImageViewHeaderPizza()
 	private lazy var titleHeader: UILabel = settingTitleHeader()
 	private lazy var buttonBack: UIButton = settingButtonBack()
+	
+	var presenter: ICategoryPresenter?
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		settingMainView()
+		presenter?.loadData()
+	}
+}
+
+extension CategoryViewController: ICategoryViewController {
+	func viewReady() {
+		
 	}
 }
 
 // MARK: UICollectionViewDelegate
 extension CategoryViewController: UICollectionViewDelegate {
-	
+	func collectionView(
+		_ collectionView: UICollectionView,
+		didSelectItemAt indexPath: IndexPath
+	) {
+		dump("нажал")
+	}
+}
+
+private extension CategoryViewController {
 }
 
 // MARK: Setting View
@@ -97,12 +119,6 @@ private extension CategoryViewController {
 			make.trailing.equalToSuperview()
 		}
 		
-		collectionView.snp.makeConstraints {
-			$0.top.equalToSuperview().offset(200)
-			$0.leading.trailing.equalToSuperview()
-			$0.bottom.equalToSuperview()
-		}
-		
 		buttonBack.snp.makeConstraints { make in
 			make.top.equalToSuperview().offset(70)
 			make.height.width.equalTo(44)
@@ -113,6 +129,13 @@ private extension CategoryViewController {
 			make.top.equalTo(buttonBack.snp.bottom).offset(24)
 			make.leading.equalToSuperview().offset(Margins.mainHorizontal)
 		}
+		
+		collectionView.snp.makeConstraints {
+			$0.top.equalToSuperview().offset(200)
+			$0.leading.trailing.equalToSuperview()
+			$0.bottom.equalTo(view.safeAreaLayoutGuide)
+		}
+		
 		
 	}
 }
@@ -125,12 +148,12 @@ private extension CategoryViewController {
 		var snapshot = NSDiffableDataSourceSnapshot<CategoryModel.Section, CategoryModel.Card>()
 		snapshot.appendSections([.filterCard, .card])
 		snapshot.appendItems(
-			mokData.arrayCard,
+			cardModel,
 			toSection: .filterCard
 		)
 		
 		snapshot.appendItems(
-			mokData.arrayCardtwo,
+			cardModel,
 			toSection: .card
 		)
 		
@@ -153,6 +176,7 @@ private extension CategoryViewController {
 						withReuseIdentifier: "\(CategoryViewCell.self)",
 						for: indexPath
 					) as? CategoryViewCell else { return UICollectionViewCell() }
+					
 					return cell
 				case .filterCard:
 					guard let cell = collectionView.dequeueReusableCell(
@@ -173,7 +197,7 @@ private extension CategoryViewController {
 		let supplementaryRegistration = UICollectionView.SupplementaryRegistration
 		<TitleSupplementaryView>(elementKind: "HeaderCard") {
 			(supplementaryView, string, indexPath) in
-			supplementaryView.label.text = "Тонкое тесто"
+			supplementaryView.label.text = ""
 			supplementaryView.label.font = UIFont.systemFont(
 				ofSize: 20,
 				weight: .bold

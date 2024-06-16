@@ -9,5 +9,4 @@ import Foundation
 
 enum Margins {
 	static let mainHorizontal: CGFloat = 16
-	static let mainVertical: CGFloat = 16
 }

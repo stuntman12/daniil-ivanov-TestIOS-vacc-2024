@@ -19,7 +19,7 @@ enum CategoryModel: Hashable {
 	struct Card: Hashable {
 		let id = UUID()
 		let title: String
-		let image: UIImage?
+		let image: String
 		let weight: String
 		let benefit: String
 		let newPrice: String
@@ -29,6 +29,5 @@ enum CategoryModel: Hashable {
 	struct FilterCard: Hashable {
 		let title: String
 	}
-	
 }
 
