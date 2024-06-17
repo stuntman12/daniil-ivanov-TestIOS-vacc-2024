@@ -29,8 +29,10 @@ final class IngredientsCell: UICollectionViewCell {
 		imageIngredient.image = UIImage(named: element.image)
 		labelTitle.text = element.title
 		labelWeight.text = element.weight + " гр"
-		labelPrice.text = element.price
+		labelPrice.text = element.price + "₽"
 		labelCount.text = element.count
+		buttonMinus.tintColor = labelCount.text == "0" ? .lightGray : .black
+		buttonPlus.tintColor = labelCount.text == "0" ? .lightGray : .black
 	}
 }
 
@@ -62,7 +64,7 @@ private extension IngredientsCell {
 	
 	func settingLabelWeight() -> UILabel {
 		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 12)
+		label.font = UIFont.systemFont(ofSize: 12, weight: .light)
 		contentView.addSubview(label)
 		return label
 	}
@@ -70,7 +72,7 @@ private extension IngredientsCell {
 	func settingLabelPrice() -> UILabel {
 		let label = UILabel()
 		label.textColor = .red
-		label.font = UIFont.systemFont(ofSize: 16)
+		label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
 		contentView.addSubview(label)
 		return label
 	}
@@ -88,7 +90,6 @@ private extension IngredientsCell {
 			UIImage(systemName: "minus"),
 			for: .normal
 		)
-		button.tintColor = labelCount.text == "0" ? .black : .gray
 		contentView.addSubview(button)
 		return button
 	}
@@ -99,7 +100,6 @@ private extension IngredientsCell {
 			UIImage(systemName: "plus"),
 			for: .normal
 		)
-		button.tintColor = labelCount.text == "0" ? .gray : .black
 		contentView.addSubview(button)
 		return button
 	}

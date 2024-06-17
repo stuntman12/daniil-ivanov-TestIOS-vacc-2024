@@ -19,6 +19,8 @@
 		CE54C7892C1766C8008C8D62 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54C7882C1766C8008C8D62 /* CategoryModel.swift */; };
 		CE54C78B2C178081008C8D62 /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54C78A2C178081008C8D62 /* FilterViewCell.swift */; };
 		CE630E5A2C1E29C9005642ED /* MokData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE630E592C1E29C9005642ED /* MokData.swift */; };
+		CE630E5D2C1EDE58005642ED /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = CE630E5C2C1EDE58005642ED /* Apollo */; };
+		CE630E602C1EE2AE005642ED /* schema.graphqls in Resources */ = {isa = PBXBuildFile; fileRef = CE630E5E2C1EE2AE005642ED /* schema.graphqls */; };
 		CE9E660B2C1CAAFD00B68AC3 /* BasketCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9E660A2C1CAAFD00B68AC3 /* BasketCell.swift */; };
 		CE9E660D2C1CAD2B00B68AC3 /* BasketModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9E660C2C1CAD2B00B68AC3 /* BasketModel.swift */; };
 		CE9E66102C1CD5CE00B68AC3 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9E660F2C1CD5CE00B68AC3 /* UIView+.swift */; };
@@ -29,7 +31,6 @@
 		CEA2E96F2C19FC7400CC60F4 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA2E96E2C19FC7400CC60F4 /* CardModel.swift */; };
 		CEBB2CBB2C1D8E6800ECA0E3 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBB2CBA2C1D8E6800ECA0E3 /* BaseCoordinator.swift */; };
 		CEBB2CC02C1D900000ECA0E3 /* TabBarPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBB2CBF2C1D900000ECA0E3 /* TabBarPage.swift */; };
-		CEBB2CC22C1D92CA00ECA0E3 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBB2CC12C1D92CA00ECA0E3 /* UIViewController+.swift */; };
 		CEBB2CC42C1D93C000ECA0E3 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBB2CC32C1D93C000ECA0E3 /* TabBarViewController.swift */; };
 		CEBB2CC62C1D949600ECA0E3 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBB2CC52C1D949600ECA0E3 /* AppCoordinator.swift */; };
 		CEBB2CC82C1D951A00ECA0E3 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBB2CC72C1D951A00ECA0E3 /* MainCoordinator.swift */; };
@@ -59,6 +60,7 @@
 		CE54C7882C1766C8008C8D62 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		CE54C78A2C178081008C8D62 /* FilterViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewCell.swift; sourceTree = "<group>"; };
 		CE630E592C1E29C9005642ED /* MokData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MokData.swift; sourceTree = "<group>"; };
+		CE630E5E2C1EE2AE005642ED /* schema.graphqls */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schema.graphqls; sourceTree = "<group>"; };
 		CE9E660A2C1CAAFD00B68AC3 /* BasketCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketCell.swift; sourceTree = "<group>"; };
 		CE9E660C2C1CAD2B00B68AC3 /* BasketModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketModel.swift; sourceTree = "<group>"; };
 		CE9E660F2C1CD5CE00B68AC3 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
@@ -69,7 +71,6 @@
 		CEA2E96E2C19FC7400CC60F4 /* CardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
 		CEBB2CBA2C1D8E6800ECA0E3 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		CEBB2CBF2C1D900000ECA0E3 /* TabBarPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarPage.swift; sourceTree = "<group>"; };
-		CEBB2CC12C1D92CA00ECA0E3 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		CEBB2CC32C1D93C000ECA0E3 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		CEBB2CC52C1D949600ECA0E3 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		CEBB2CC72C1D951A00ECA0E3 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -91,6 +92,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE54C77E2C17641C008C8D62 /* SnapKit in Frameworks */,
+				CE630E5D2C1EDE58005642ED /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +118,7 @@
 		CE54C7672C1763DA008C8D62 /* daniil-ivanov-TestIOS-vacc-2024 */ = {
 			isa = PBXGroup;
 			children = (
+				CE630E5F2C1EE2AE005642ED /* GraphQL */,
 				CEBB2CBC2C1D8F4F00ECA0E3 /* Application */,
 				CEBB2CB72C1D8D7200ECA0E3 /* Coordinator */,
 				CEBB2CBE2C1D8FDC00ECA0E3 /* TabBarController */,
@@ -166,13 +169,20 @@
 			path = ScreenBasket;
 			sourceTree = "<group>";
 		};
+		CE630E5F2C1EE2AE005642ED /* GraphQL */ = {
+			isa = PBXGroup;
+			children = (
+				CE630E5E2C1EE2AE005642ED /* schema.graphqls */,
+			);
+			path = GraphQL;
+			sourceTree = "<group>";
+		};
 		CE9E660E2C1CD5B400B68AC3 /* Support */ = {
 			isa = PBXGroup;
 			children = (
 				CE630E592C1E29C9005642ED /* MokData.swift */,
 				CE9E66112C1CD86400B68AC3 /* Margins.swift */,
 				CE9E660F2C1CD5CE00B68AC3 /* UIView+.swift */,
-				CEBB2CC12C1D92CA00ECA0E3 /* UIViewController+.swift */,
 				CEBB2CD92C1DFF3E00ECA0E3 /* Typealias.swift */,
 			);
 			path = Support;
@@ -270,6 +280,7 @@
 			name = "daniil-ivanov-TestIOS-vacc-2024";
 			packageProductDependencies = (
 				CE54C77D2C17641C008C8D62 /* SnapKit */,
+				CE630E5C2C1EDE58005642ED /* Apollo */,
 			);
 			productName = "daniil-ivanov-TestIOS-vacc-2024";
 			productReference = CE54C7652C1763DA008C8D62 /* daniil-ivanov-TestIOS-vacc-2024.app */;
@@ -301,6 +312,7 @@
 			mainGroup = CE54C75C2C1763DA008C8D62;
 			packageReferences = (
 				CE54C77C2C17641C008C8D62 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				CE630E5B2C1EDE58005642ED /* XCRemoteSwiftPackageReference "apollo-ios" */,
 			);
 			productRefGroup = CE54C7662C1763DA008C8D62 /* Products */;
 			projectDirPath = "";
@@ -317,6 +329,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE54C7722C1763DB008C8D62 /* Assets.xcassets in Resources */,
+				CE630E602C1EE2AE005642ED /* schema.graphqls in Resources */,
 				CE54C7752C1763DB008C8D62 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,7 +366,6 @@
 				CEBB2CCE2C1D9B7600ECA0E3 /* CategoryBuilder.swift in Sources */,
 				CEBB2CC42C1D93C000ECA0E3 /* TabBarViewController.swift in Sources */,
 				CE54C7892C1766C8008C8D62 /* CategoryModel.swift in Sources */,
-				CEBB2CC22C1D92CA00ECA0E3 /* UIViewController+.swift in Sources */,
 				CE54C7872C17665A008C8D62 /* CategoryViewCell.swift in Sources */,
 				CE54C76B2C1763DA008C8D62 /* SceneDelegate.swift in Sources */,
 				CEBB2CBB2C1D8E6800ECA0E3 /* BaseCoordinator.swift in Sources */,
@@ -591,6 +603,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		CE630E5B2C1EDE58005642ED /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.12.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -598,6 +618,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CE54C77C2C17641C008C8D62 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		CE630E5C2C1EDE58005642ED /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE630E5B2C1EDE58005642ED /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = Apollo;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

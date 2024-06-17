@@ -14,14 +14,16 @@ protocol ICategoryPresenter: AnyObject {
 
 final class CategoryPresenter: ICategoryPresenter {
 	private var clouser: EmptyClosure?
-	private weak var viewController: ICardViewController?
+	weak var viewController: ICategoryViewController?
 	
 	init(clouser: EmptyClosure?) {
 		self.clouser = clouser
 	}
 	
 	func loadData() {
-		viewController?.viewReady()
+		let model = MokData().categoryModel()
+		let filter = MokData().categoryFilter()
+		viewController?.viewReady(model: model, filter: filter)
 	}
 	
 	func tupButtonAdd() {

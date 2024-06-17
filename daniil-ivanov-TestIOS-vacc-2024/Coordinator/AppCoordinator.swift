@@ -20,6 +20,7 @@ final class AppCoordinator: BaseCoordinator {
 	
 	func runMainFlow() {
 		let tabBarController = TabBarViewController()
+		tabBarController.tabBar.items?[1].badgeValue = "5"
 		let coordinator = MainCoordinator(tabBarController: tabBarController)
 		addChild(coordinator)
 		coordinator.start()

@@ -15,6 +15,7 @@ final class BasketPresenter: IBasketPresenter {
 	private weak var viewController: IBasketVewController?
 	
 	func loadData() {
-		
+		let model = MokData().getBasketModel()
+		viewController?.viewReady(model: model)
 	}
 }

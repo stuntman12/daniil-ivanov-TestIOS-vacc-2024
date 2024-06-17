@@ -26,10 +26,11 @@ final class CardPresenter: ICardPresenter {
 	}
 	
 	func addProductBasket() {
-		
+		// Добавить в корзину
 	}
 	
 	func loadData() {
-		viewController?.viewReady()
+		let model = MokData().cardModel()
+		viewController?.viewReady(model: model)
 	}
 }

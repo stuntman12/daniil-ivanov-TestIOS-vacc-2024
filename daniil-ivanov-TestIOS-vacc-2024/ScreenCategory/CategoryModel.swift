@@ -7,27 +7,50 @@
 
 import UIKit
 
-//TODO: - Сделать нормальную модель
-
 enum CategoryModel: Hashable {
 	
 	enum Section: Int, CaseIterable {
-		case filterCard
-		case card
+		case filterCards
+		case autor
+		case slim
+	}
+
+	enum TypePizza {
+		case slim
+		case autor
+		
+		var type: String {
+			switch self {
+			case .slim:
+				return "Тонкое тесто"
+			case .autor:
+				return "Авторская пицца"
+			}
+		}
+	}
+	
+	struct Filter: Hashable {
+		let title: String
 	}
 	
 	struct Card: Hashable {
 		let id = UUID()
-		let title: String
-		let image: String
+		let name: String
+		let type: TypePizza
+		let descriptionPizza: String
+		let price: String
 		let weight: String
+		let image: String
+		let calorie: String
+		let protein: String
+		let fats: String
+		let carbohydrates: String
+		let onion: String
+		let tomato: String
+		let cucumber: String
 		let benefit: String
-		let newPrice: String
 		let oldPrice: String
 	}
-	
-	struct FilterCard: Hashable {
-		let title: String
-	}
+
 }
 

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,12 +18,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	// MARK: UISceneSession Lifecycle
 
 	func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-		return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+		return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)}
+
+	func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
+
+
+	lazy var persistentContainer: NSPersistentContainer = {
+		let container = NSPersistentContainer(name: "CoreData")
+		container.loadPersistentStores { description, error in
+			if let error {
+				dump(error.localizedDescription)
+			} else {
+				dump(description.url)
+			}
+		}
+		return container
+	}()
+	
+	func saveContext() {
+		let context = persistentContainer.viewContext
+		if context.hasChanges {
+			do {
+				try context.save()
+			} catch {
+				let error = error as NSError
+				dump(error.localizedDescription)
+			}
+		}
 	}
-
-	func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-	}
-
-
 }
 

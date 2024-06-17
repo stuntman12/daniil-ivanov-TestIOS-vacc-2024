@@ -5,7 +5,6 @@
 //  Created by Даниил Иванов on 10.06.2024.
 //
 
-//TODO: - Добавить огонек, разобраться с отступом от цен и кнопки
 import UIKit
 import SnapKit
 
@@ -31,11 +30,12 @@ final class CategoryViewCell: UICollectionViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	override func point(
-		inside point: CGPoint,
-		with event: UIEvent?
-	) -> Bool {
-		return buttonAdd.bounds.contains(point)
+	func addTargetButton(target: Any?, action: Selector, event: UIControl.Event) {
+		buttonAdd.addTarget(
+			target,
+			action: action,
+			for: event
+		)
 	}
 	
 	func configure(
@@ -48,10 +48,10 @@ final class CategoryViewCell: UICollectionViewCell {
 	) {
 		imageView.image = UIImage(named: image)
 		labelTitle.text = title
-		labelWeight.text = weight
-		labelBenefit.text = benefit
-		labelNewPrice.text = newPrice
-		labelOldPrice.text = oldPrice
+		labelWeight.text = weight + "гр"
+		labelBenefit.text = "Выгода " + benefit + "₽!"
+		labelNewPrice.text = newPrice + "₽"
+		labelOldPrice.text = oldPrice + " ₽"
 	}
 }
 
@@ -115,7 +115,7 @@ private extension CategoryViewCell {
 	
 	func settingLabelOldPrice() -> UILabel {
 		let label = UILabel()
-		let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: label.text ?? "")
+		let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: label.text ?? "232")
 		attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 1, range: NSRange(location: 0, length: attributeString.length))
 		label.attributedText = attributeString
 		label.textColor = UIColor(resource: .oldPrice)
@@ -153,7 +153,7 @@ private extension CategoryViewCell {
 		imageView.snp.makeConstraints { make in
 			make.top.equalToSuperview()
 			make.width.equalToSuperview().multipliedBy(1)
-			make.height.equalTo(121)
+			make.height.equalTo(100)
 		}
 		
 		labelTitle.snp.makeConstraints { make in

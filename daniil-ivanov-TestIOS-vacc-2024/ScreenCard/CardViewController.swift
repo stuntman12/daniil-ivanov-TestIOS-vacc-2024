@@ -9,15 +9,14 @@ import UIKit
 import SnapKit
 
 protocol ICardViewController: AnyObject {
-	func viewReady()
+	func viewReady(model: [CardModel.IngredientsCell])
 }
 
 final class CardViewController: UIViewController {
-		
+	
 	// MARK: Variables
-	private var ingredients = [CardModel.IngredientsCell]()
-	var model: CardModel.PizzaInfo?
-	var dataSource: UICollectionViewDiffableDataSource<CardModel.Section, CardModel.IngredientsCell>?
+	private var ingredients = MokData().cardModel()
+	var dataSource: CollectionDataSource?
 	private lazy var buttonBack: UIButton = settingButtonBack()
 	private lazy var screenScroll: UIScrollView = settingScreenScroll()
 	private lazy var contentView: UIView = settingContentView()
@@ -47,8 +46,9 @@ final class CardViewController: UIViewController {
 
 // MARK: ICardViewController
 extension CardViewController: ICardViewController {
-	func viewReady() {
-		
+	func viewReady(model: [CardModel.IngredientsCell]) {
+		ingredients = model
+		reloadData()
 	}
 }
 
@@ -68,17 +68,17 @@ private extension CardViewController {
 	}
 	
 	@objc func addProductBasket() {
-		
+		presenter?.addProductBasket()
 	}
 }
 
 // MARK: Setting View
 private extension CardViewController {
 	func settingMainView() {
-		view.backgroundColor = UIColor(resource: .main)
+		view.backgroundColor = .white
 		settingLayout()
 		settingDataSource()
-		settingSnapshot()
+		reloadData()
 		
 		addImage(position: 0)
 		addImage(position: 1)
@@ -229,11 +229,10 @@ private extension CardViewController {
 			IngredientsCell.self,
 			forCellWithReuseIdentifier: "\(IngredientsCell.self)"
 		)
-		collection.backgroundColor = UIColor(resource: .main)
 		contentView.addSubview(collection)
 		return collection
 	}
-
+	
 	// MARK: Setting Layout
 	func settingLayout() {
 		screenScroll.snp.makeConstraints { make in
@@ -345,13 +344,13 @@ private extension CardViewController {
 // MARK: Setting DataSource and Layout collection
 private extension CardViewController {
 	func settingDataSource() {
-		dataSource = UICollectionViewDiffableDataSource<CardModel.Section, CardModel.IngredientsCell>(
+		dataSource = CollectionDataSource(
 			collectionView: collectionViewIngredients,
 			cellProvider: {
 				collectionView,
 				indexPath,
 				itemIdentifier in
-				guard let section = CardModel.Section(rawValue: indexPath.section) else { return nil}
+				let section = CardModel.Section.allCases[indexPath.section]
 				switch section {
 				case .ingredients:
 					let cell = collectionView.dequeueReusableCell(
@@ -365,11 +364,8 @@ private extension CardViewController {
 		)
 	}
 	
-	func settingSnapshot() {
-		var snapshot = NSDiffableDataSourceSnapshot<
-			CardModel.Section,
-			CardModel.IngredientsCell
-		>()
+	func reloadData() {
+		var snapshot = CollectionSnapShot()
 		snapshot.appendSections([.ingredients])
 		snapshot.appendItems(
 			ingredients,
@@ -379,23 +375,21 @@ private extension CardViewController {
 	}
 	
 	func settingCollectionLayout() -> UICollectionViewLayout {
-		let configure = UICollectionViewCompositionalLayoutConfiguration()
-		
-		configure.scrollDirection = .horizontal
-		
+		let config = UICollectionViewCompositionalLayoutConfiguration()
+		config.scrollDirection = .horizontal
 		let layout = UICollectionViewCompositionalLayout(
-			sectionProvider: { (sectionIndex, envirment) in
+			sectionProvider: { int, envirment in
 				return self.settingSectionLayout()
-			},
-			configuration: configure
-		)
+			}, 
+			configuration: config
+			)
 		return layout
 	}
 	
 	func settingSectionLayout() -> NSCollectionLayoutSection {
 		let item = NSCollectionLayoutItem(
 			layoutSize: NSCollectionLayoutSize(
-				widthDimension: .estimated(109),
+				widthDimension: .absolute(109),
 				heightDimension: .fractionalHeight(1)
 			)
 		)
@@ -407,13 +401,12 @@ private extension CardViewController {
 			count: 3
 			
 		)
-		
-		group.interItemSpacing = NSCollectionLayoutSpacing.fixed(8)
+		group.interItemSpacing = NSCollectionLayoutSpacing.flexible(8)
 		
 		let section = NSCollectionLayoutSection(
 			group: group
 		)
-		section.orthogonalScrollingBehavior = .groupPagingCentered
+		section.orthogonalScrollingBehavior = .paging
 		
 		return section
 	}

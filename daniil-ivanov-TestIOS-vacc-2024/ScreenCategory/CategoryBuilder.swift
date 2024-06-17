@@ -11,6 +11,7 @@ final class CategoryBuilder {
 	func assembly(clouser: EmptyClosure?) -> CategoryViewController {
 		let viewController = CategoryViewController()
 		let presenter = CategoryPresenter(clouser: clouser)
+		presenter.viewController = viewController
 		viewController.presenter = presenter
 		return viewController
 	}

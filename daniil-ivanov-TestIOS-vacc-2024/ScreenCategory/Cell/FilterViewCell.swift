@@ -42,7 +42,9 @@ private extension FilterViewCell {
 	
 	func settingLayout() {
 		labelFilter.snp.makeConstraints { make in
-			make.centerX.centerY.equalToSuperview()
+			make.leading.equalToSuperview().offset(Margins.mainHorizontal)
+			make.trailing.equalToSuperview().offset(-Margins.mainHorizontal)
+			make.centerY.equalToSuperview()
 		}
 	}
 }

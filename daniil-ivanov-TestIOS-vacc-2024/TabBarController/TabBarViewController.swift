@@ -16,7 +16,7 @@ final class TabBarViewController: UITabBarController {
 
 private extension TabBarViewController {
 	func settingTabBar() {
-		tabBar.backgroundColor = .white 
+		tabBar.backgroundColor = .white
 		let controllers : [UINavigationController] = TabbarPage.allTabbarPages.map {
 			getTabController($0)
 		}

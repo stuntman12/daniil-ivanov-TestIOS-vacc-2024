@@ -33,7 +33,9 @@ final class BasketCell: UICollectionViewCell {
 		imageViewProduct.image = UIImage(named: image)
 		labelTitleProduct.text = title
 		labelCount.text = count
-		labelPrice.text = price
+		labelPrice.text = price + "₽"
+		buttonMinus.tintColor = labelCount.text == "0" ? .gray : .black
+		buttonPlus.tintColor = labelCount.text == "0" ? .gray : .black
 	}
 }
 
@@ -104,6 +106,8 @@ private extension BasketCell {
 			buttonDelete
 		])
 		stack.axis = .horizontal
+		stack.distribution = .equalCentering
+		stack.alignment = .top
 		stack.spacing = 8
 		contentView.addSubview(stack)
 		return stack
@@ -111,7 +115,7 @@ private extension BasketCell {
 	
 	func settingLabelTitleProduct() -> UILabel {
 		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 12)
+		label.font = UIFont.systemFont(ofSize: 14)
 		label.numberOfLines = 0
 		label.adjustsFontSizeToFitWidth = true
 		label.setContentCompressionResistancePriority(
@@ -134,7 +138,7 @@ private extension BasketCell {
 	func settingLabelPrice() -> UILabel {
 		let label = UILabel()
 		label.textColor = .black
-		label.font = UIFont.systemFont(ofSize: 20)
+		label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
 		contentView.addSubview(label)
 		return label
 	}
@@ -160,7 +164,6 @@ private extension BasketCell {
 			UIImage(systemName: "minus"),
 			for: .normal
 		)
-		button.tintColor = labelCount.text == "0" ? .black : .gray
 		viewСontainer.addSubview(button)
 		return button
 	}
@@ -171,7 +174,6 @@ private extension BasketCell {
 			UIImage(systemName: "plus"),
 			for: .normal
 		)
-		button.tintColor = labelCount.text == "0" ? .gray : .black
 		viewСontainer.addSubview(button)
 		return button
 	}

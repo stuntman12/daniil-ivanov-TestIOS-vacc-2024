@@ -8,15 +8,17 @@
 import UIKit
 import SnapKit
 
-protocol ICategoryViewController {
-	func viewReady()
+protocol ICategoryViewController: AnyObject {
+	func viewReady(model: [CategoryModel.Card], filter: [CategoryModel.Card])
 }
 
 class CategoryViewController: UIViewController {
 	
 	// MARK: Variables
-	private var cardModel = [CategoryModel.Card]()
-	var dataSource: UICollectionViewDiffableDataSource<CategoryModel.Section, CategoryModel.Card>?
+	private var modelAutor = [CategoryModel.Card]()
+	private var modelSlim = [CategoryModel.Card]()
+	private var modelFilter = [CategoryModel.Card]()
+	var dataSource: СollectionDataSource?
 	private lazy var collectionView: UICollectionView = settingCollectionView()
 	private lazy var imageViewHeaderPizza: UIImageView = settingImageViewHeaderPizza()
 	private lazy var titleHeader: UILabel = settingTitleHeader()
@@ -29,25 +31,25 @@ class CategoryViewController: UIViewController {
 		settingMainView()
 		presenter?.loadData()
 	}
+	
+	@objc func tupAddButton() {
+		presenter?.tupButtonAdd()
+	}
 }
 
 extension CategoryViewController: ICategoryViewController {
-	func viewReady() {
-		
+	func viewReady(model: [CategoryModel.Card], filter: [CategoryModel.Card]) {
+		modelFilter = filter
+		model.forEach { item in
+			switch item.type {
+			case .slim:
+				modelSlim.append(item)
+			case .autor:
+				modelAutor.append(item)
+			}
+		}
+		reloadData()
 	}
-}
-
-// MARK: UICollectionViewDelegate
-extension CategoryViewController: UICollectionViewDelegate {
-	func collectionView(
-		_ collectionView: UICollectionView,
-		didSelectItemAt indexPath: IndexPath
-	) {
-		dump("нажал")
-	}
-}
-
-private extension CategoryViewController {
 }
 
 // MARK: Setting View
@@ -58,6 +60,8 @@ private extension CategoryViewController {
 		settingLayout()
 		reloadData()
 	}
+	
+	
 	
 	// MARK: SettingImageViewHeaderPizza
 	func settingImageViewHeaderPizza() -> UIImageView {
@@ -105,10 +109,11 @@ private extension CategoryViewController {
 			forCellWithReuseIdentifier: "\(CategoryViewCell.self)"
 		)
 		collection.showsVerticalScrollIndicator = false
-		collection.delegate = self
 		view.addSubview(collection)
 		return collection
 	}
+	
+	
 	
 	
 	// MARK: Setting Layout
@@ -135,56 +140,75 @@ private extension CategoryViewController {
 			$0.leading.trailing.equalToSuperview()
 			$0.bottom.equalTo(view.safeAreaLayoutGuide)
 		}
-		
-		
 	}
 }
 
 // MARK: Setting CollectionView
 private extension CategoryViewController {
-
+	
 	// MARK: DataSourceSnapshot
 	func reloadData() {
-		var snapshot = NSDiffableDataSourceSnapshot<CategoryModel.Section, CategoryModel.Card>()
-		snapshot.appendSections([.filterCard, .card])
+		var snapshot = СollectionSnapShot()
+		
+		snapshot.appendSections([.filterCards, .autor, .slim])
 		snapshot.appendItems(
-			cardModel,
-			toSection: .filterCard
+			modelFilter,
+			toSection: .filterCards
 		)
 		
 		snapshot.appendItems(
-			cardModel,
-			toSection: .card
+			modelSlim,
+			toSection: .slim
 		)
+		
+		snapshot.appendItems(
+			modelAutor,
+			toSection: .autor
+		)
+		
+		
 		
 		dataSource?.apply(snapshot, animatingDifferences: true)
 	}
 	
 	// MARK: DiffableDataSource
+	
 	func settingDataSource() {
-		dataSource = UICollectionViewDiffableDataSource<CategoryModel.Section, CategoryModel.Card>(
+		dataSource = СollectionDataSource(
 			collectionView: collectionView,
 			cellProvider: {
 				collectionView,
 				indexPath,
 				itemIdentifier in
-				guard let section = CategoryModel.Section(rawValue: indexPath.section) else {
-					return nil }
+				
+				let section = CategoryModel.Section.allCases[indexPath.section]
 				switch section {
-				case .card:
-					guard let cell = collectionView.dequeueReusableCell(
-						withReuseIdentifier: "\(CategoryViewCell.self)",
-						for: indexPath
-					) as? CategoryViewCell else { return UICollectionViewCell() }
-					
-					return cell
-				case .filterCard:
-					guard let cell = collectionView.dequeueReusableCell(
+				case .filterCards:
+					let cell = collectionView.dequeueReusableCell(
 						withReuseIdentifier: "\(FilterViewCell.self)",
 						for: indexPath
-					) as? FilterViewCell else { return UICollectionViewCell() }
-					cell.layer.cornerRadius = 10
-					cell.configure(text: itemIdentifier.title)
+					) as! FilterViewCell
+					cell.configure(text: itemIdentifier.type.type)
+					return cell
+				case .slim,
+						.autor:
+					let cell = collectionView.dequeueReusableCell(
+						withReuseIdentifier: "\(CategoryViewCell.self)",
+						for: indexPath
+					) as! CategoryViewCell
+					cell.addTargetButton(
+						target: self,
+						action: #selector(self.tupAddButton),
+						event: .touchUpInside
+					)
+					cell.configure(
+						image: itemIdentifier.image,
+						title: itemIdentifier.name,
+						weight: itemIdentifier.weight,
+						benefit: itemIdentifier.benefit,
+						newPrice: itemIdentifier.price,
+						oldPrice: itemIdentifier.oldPrice
+					)
 					return cell
 				}
 			}
@@ -194,19 +218,32 @@ private extension CategoryViewController {
 	
 	// MARK: SupplementaryView
 	func settingSupplementaryView() {
-		let supplementaryRegistration = UICollectionView.SupplementaryRegistration
-		<TitleSupplementaryView>(elementKind: "HeaderCard") {
-			(supplementaryView, string, indexPath) in
-			supplementaryView.label.text = ""
+		let supplementaryRegistrationSlim = UICollectionView.SupplementaryRegistration
+		<TitleSupplementaryView>( elementKind: "Slim") { [weak self]
+			supplementaryView,
+			elementKind,
+			indexPath in
+			supplementaryView.label.text = self?.dataSource?.snapshot().itemIdentifiers[indexPath.section].type.type
 			supplementaryView.label.font = UIFont.systemFont(
 				ofSize: 20,
 				weight: .bold
 			)
-			
 		}
+		let supplementaryRegistrationAutor = UICollectionView.SupplementaryRegistration
+		<TitleSupplementaryView>(elementKind: "Autor") {[weak self]
+			supplementaryView,
+			string,
+			indexPath in
+			supplementaryView.label.text = self?.dataSource?.snapshot().itemIdentifiers[indexPath.section].type.type
+			supplementaryView.label.font = UIFont.systemFont(
+				ofSize: 20,
+				weight: .bold
+			)
+		}
+		
 		dataSource?.supplementaryViewProvider = { (view, kind, index) in
-			return self.collectionView.dequeueConfiguredReusableSupplementary(
-				using: supplementaryRegistration,
+			return view.dequeueConfiguredReusableSupplementary(
+				using: kind == "Autor" ? supplementaryRegistrationAutor : supplementaryRegistrationSlim,
 				for: index
 			)
 		}
@@ -215,15 +252,13 @@ private extension CategoryViewController {
 	// MARK: CollectionViewLayout
 	func settingCollectionLayout() -> UICollectionViewLayout {
 		let layout = UICollectionViewCompositionalLayout { [unowned self]
-			(sectionIndex, envirment)  -> NSCollectionLayoutSection in
-			guard let section = CategoryModel.Section(rawValue: sectionIndex) else {
-				fatalError("Unknown section kind")
-			}
+			(sectionIndex, envirment) -> NSCollectionLayoutSection in
+			let section = CategoryModel.Section.allCases[sectionIndex]
 			switch section {
-			case .card:
-				return createLayoutCard()
-			case .filterCard:
+			case .filterCards:
 				return createLayoutFilter()
+			case .autor, .slim:
+				return createLayoutCard()
 			}
 		}
 		return layout
@@ -254,21 +289,31 @@ private extension CategoryViewController {
 		section.contentInsets = NSDirectionalEdgeInsets(
 			top: 0,
 			leading: 8,
-			bottom: 0,
+			bottom: 20,
 			trailing: 8
 		)
 		
 		section.interGroupSpacing = 10
 		
-		let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+		let sectionAutor = NSCollectionLayoutBoundarySupplementaryItem(
 			layoutSize: NSCollectionLayoutSize(
 				widthDimension: .fractionalWidth(1.0),
 				heightDimension: .estimated(44)
 			),
-			elementKind: "HeaderCard",
+			elementKind: "Slim",
 			alignment: .top
 		)
-		section.boundarySupplementaryItems = [sectionHeader]
+		
+		let sectionSlim = NSCollectionLayoutBoundarySupplementaryItem(
+			layoutSize: NSCollectionLayoutSize(
+				widthDimension: .fractionalWidth(1.0),
+				heightDimension: .estimated(44)
+			),
+			elementKind: "Autor",
+			alignment: .top
+		)
+		
+		section.boundarySupplementaryItems = [sectionAutor, sectionSlim]
 		
 		return section
 	}
@@ -277,8 +322,8 @@ private extension CategoryViewController {
 	private func createLayoutFilter() -> NSCollectionLayoutSection {
 		let item = NSCollectionLayoutItem(
 			layoutSize: NSCollectionLayoutSize(
-				widthDimension: .absolute(107),
-				heightDimension: .fractionalHeight(0.5)
+				widthDimension: .estimated(107),
+				heightDimension: .estimated(40)
 			)
 		)
 		
@@ -310,3 +355,5 @@ private extension CategoryViewController {
 		return section
 	}
 }
+
+

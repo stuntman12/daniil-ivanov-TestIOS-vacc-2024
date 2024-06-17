@@ -9,13 +9,13 @@ import UIKit
 import SnapKit
 
 protocol IBasketVewController: AnyObject {
-	func viewReady()
+	func viewReady(model: [BasketModel.Product])
 }
 
 final class BasketVewController: UIViewController {
 	
 	// MARK: Variables
-	private var baskets = [BasketModel.Product]()
+	private var baskets = MokData().getBasketModel()
 	private lazy var viewUpContainer: UIView = settingUpView()
 	private lazy var buttonDelete: UIButton = settingButtomDelete()
 	private lazy var buttonBack: UIButton = settingButtonBack()
@@ -27,7 +27,7 @@ final class BasketVewController: UIViewController {
 	private var dataSource: UICollectionViewDiffableDataSource<BasketModel.Section, BasketModel.Product>!
 	
 	// MARK: Dependencies
-	weak var presenter: IBasketPresenter?
+	var presenter: IBasketPresenter?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -35,10 +35,9 @@ final class BasketVewController: UIViewController {
 		settingMainView()
 	}
 }
-
 extension BasketVewController: IBasketVewController {
-	func viewReady() {
-		
+	func viewReady(model: [BasketModel.Product]) {
+		baskets = model 
 	}
 }
 
@@ -48,7 +47,7 @@ private extension BasketVewController {
 		view.backgroundColor = .white
 		settingLayoutView()
 		createDataSource()
-		createSnapShot()
+		reloadData()
 	}
 	
 	func settingUpView() -> UIView {
@@ -63,6 +62,13 @@ private extension BasketVewController {
 		button.backgroundColor = UIColor(resource: .filter)
 		button.setImage(UIImage(resource: .iconbasket), for: .normal)
 		button.tintColor = .black
+		button.addAction(
+			UIAction(handler: { [weak self] _ in
+				self?.baskets.removeAll()
+				self?.reloadData()
+			}),
+			for: .touchUpInside
+		)
 		viewUpContainer.addSubview(button)
 		return button
 	}
@@ -107,7 +113,7 @@ private extension BasketVewController {
 	
 	func settingLabelPriceBottom() -> UILabel {
 		let label = UILabel()
-		label.text = "2 543₽"
+		label.text = "1795 ₽"
 		label.font = UIFont.systemFont(ofSize: 26)
 		label.textColor = .black
 		viewBottomContainer.addSubview(label)
@@ -206,7 +212,7 @@ private extension BasketVewController {
 		)
 	}
 	
-	func createSnapShot() {
+	func reloadData() {
 		var snapshot = NSDiffableDataSourceSnapshot<BasketModel.Section, BasketModel.Product>()
 		snapshot.appendSections([.product])
 		snapshot.appendItems(baskets, toSection: .product)
